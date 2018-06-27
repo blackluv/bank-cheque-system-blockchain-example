@@ -65,7 +65,7 @@ class chequeBlockchain{
 	//or you can add a real cheque...
 	generateGenesisBlock(){
 		var firstCheque = new Cheque('786', 0, 'dummy', 'test', Date.now(), 'cash', 'main branch', 'khan');
-		this.pendingCheques.push(firstTransaction);
+		this.pendingCheques.push(firstCheque);
 		var block = new chequeBlock(Date.now(), this.pendingCheques);
 		block.mineChequeBlock(this.difficulty);
 		this.chequeChain = [block];
@@ -90,8 +90,8 @@ class chequeBlockchain{
 	}
 	
 	//add cheques to the pending cheques array to be mined.
-	addCheques(Cheque){
-		this.pendingCheques.push(Cheque);
+	addCheques(cheque){
+		this.pendingCheques.push(cheque);
 	}
 	
 	// check if the blockchain is valid and not tempered with.
@@ -128,6 +128,22 @@ class chequeBlockchain{
 		}
 		return balance;
 	}
+	
+	isChequeValid(cheque){
+		for(const block of this.chequeChain){
+			for(const bCheque of block.cheques){
+				if(bCheque.chequeNum === cheque.chequeNum){
+					return false;
+				}
+			}
+		}
+		for(const pCheque of this.pendingCheques){
+			if(pCheque.chequeNum === cheque.chequeNum){
+				return false;
+			}
+		}
+		return true;
+	}
 }
 
 
@@ -137,8 +153,19 @@ var chequeCoin = new chequeBlockchain();
 chequeCoin.generateGenesisBlock();
 
 console.log("block 1 mining.....");
-chequeCoin.addCheques(new Cheque('7861', 80, 'sender', 'reciever', Date.now(), 'cash', 'main branch', 'khan'));
-chequeCoin.addCheques(new Cheque('7862', 20, 'sender', 'reciever', Date.now(), 'cash', 'main branch', 'khan'));
+var chequeToAdd = new Cheque('7861', 80, 'sender', 'reciever', Date.now(), 'cash', 'main branch', 'khan');
+var chequeToAdd1 = new Cheque('7862', 20, 'sender', 'reciever', Date.now(), 'cash', 'main branch', 'khan');
+if(chequeCoin.isChequeValid(chequeToAdd)){
+	chequeCoin.addCheques(chequeToAdd);
+}
+
+if(chequeCoin.isChequeValid(chequeToAdd1)){
+	chequeCoin.addCheques(chequeToAdd1);
+}
+if(chequeCoin.isChequeValid(chequeToAdd1)){
+	chequeCoin.addCheques(chequeToAdd1);
+}
+
 chequeCoin.minePendingCheques();
 
 console.log("block 2 mining.....");
