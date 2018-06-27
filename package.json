@@ -1,0 +1,23 @@
+{
+  "name": "bank-cheque-system-blockchain-example",
+  "version": "1.0.0",
+  "description": "This is a basic implementation of cheque verification system for banks using blockchain technology using nodeJs",
+  "main": "ChequeChain.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abidaks/bank-cheque-system-blockchain-example.git"
+  },
+  "keywords": [
+    "node",
+    "javascript",
+    "blockchain"
+  ],
+  "author": "Muhammad Abid <mohdabid.aks@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "hash.js": "^1.1.4"
+  }
+}
